@@ -1,5 +1,9 @@
-const Graphql = {
-  url: 'https://localhost:7104/graphql/',
+const GraphqlConfig = {
+  url: 'http://localhost:5233/graphql/',
 };
 
-export default Graphql;
+const GraphqlErrorCodes = {
+  authNotAuthorized: 'AUTH_NOT_AUTHORIZED',
+};
+
+export { GraphqlConfig, GraphqlErrorCodes };

@@ -27,5 +27,5 @@
     "package-lock.json": true,
     "*.{css,sass,scss}.d.ts": true
   },
-  "cSpell.words": ["mantine", "tailwindcss", "urql"]
+  "cSpell.words": ["mantine", "reexecute", "tailwindcss", "urql"]
 }

@@ -45,7 +45,8 @@
     "start:main": "cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only .",
     "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.dev.ts",
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
-    "test": "jest"
+    "test": "jest",
+    "codegen": "graphql-codegen"
   },
   "browserslist": [],
   "prettier": {
@@ -103,6 +104,8 @@
     "@mantine/hooks": "^6.0.17",
     "@mantine/modals": "^6.0.17",
     "@mantine/notifications": "^6.0.17",
+    "@urql/exchange-auth": "^2.1.5",
+    "@urql/exchange-refocus": "^1.0.2",
     "autoprefixer": "^10.4.14",
     "axios": "^1.4.0",
     "dayjs": "^1.11.9",
@@ -121,6 +124,8 @@
   "devDependencies": {
     "@electron/notarize": "^1.2.3",
     "@electron/rebuild": "^3.2.13",
+    "@graphql-codegen/cli": "^4.0.1",
+    "@graphql-codegen/client-preset": "^4.0.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@svgr/webpack": "^8.0.1",
     "@teamsupercell/typings-for-css-modules-loader": "^2.5.2",
@@ -177,7 +182,7 @@
     "ts-loader": "^9.4.3",
     "ts-node": "^10.9.1",
     "tsconfig-paths-webpack-plugin": "^4.0.1",
-    "typescript": "^5.1.3",
+    "typescript": "^5.1.6",
     "url-loader": "^4.1.1",
     "webpack": "^5.85.0",
     "webpack-bundle-analyzer": "^4.9.0",

@@ -24,4 +24,18 @@ const getRefreshToken = (): string | null => {
   return authCredential.refreshToken;
 };
 
-export { getToken, getRefreshToken, getAuthCredential };
+const removeAuthCredential = (): void => {
+  localStorage.removeItem(LocalStorage.user);
+};
+
+const setAuthCredential = (authCredential: AuthCredential): void => {
+  localStorage.setItem(LocalStorage.user, JSON.stringify(authCredential));
+};
+
+export {
+  getToken,
+  getRefreshToken,
+  getAuthCredential,
+  removeAuthCredential,
+  setAuthCredential,
+};
