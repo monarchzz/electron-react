@@ -9,21 +9,22 @@ export const loginMutation = graphql(`
       userId
       token
       refreshToken
+      tenant
     }
   }
 `);
 
 const useLogin = () => {
-  const [loginResult, _updateLogin] = useMutation(loginMutation);
+  const [loginResult, _login] = useMutation(loginMutation);
 
-  const updateLogin = useCallback(
+  const login = useCallback(
     (
       variables: Exact<{
         input: LoginInput;
       }>,
       tenant: string
     ) => {
-      _updateLogin(variables, {
+      return _login(variables, {
         fetchOptions: {
           headers: {
             tenant,
@@ -31,10 +32,10 @@ const useLogin = () => {
         },
       });
     },
-    [_updateLogin]
+    [_login]
   );
 
-  return [loginResult, updateLogin];
+  return { loginResult, login };
 };
 
 export default useLogin;

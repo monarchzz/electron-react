@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { graphql } from 'renderer/gql';
 import { Exact, RefreshTokenInput } from 'renderer/gql/graphql';
+import { getTenant } from 'renderer/utils/auth';
 import { useMutation } from 'urql';
 
 export const refreshTokenMutation = graphql(`
@@ -9,33 +10,32 @@ export const refreshTokenMutation = graphql(`
       userId
       token
       refreshToken
+      tenant
     }
   }
 `);
 
 const useRefreshToken = () => {
-  const [refreshTokenResult, _updateRefreshToken] =
-    useMutation(refreshTokenMutation);
+  const [refreshTokenResult, _refreshToken] = useMutation(refreshTokenMutation);
 
-  const updateRefreshToken = useCallback(
+  const refreshToken = useCallback(
     (
       variables: Exact<{
         input: RefreshTokenInput;
-      }>,
-      tenant: string
+      }>
     ) => {
-      _updateRefreshToken(variables, {
+      return _refreshToken(variables, {
         fetchOptions: {
           headers: {
-            tenant,
+            tenant: getTenant() || '',
           },
         },
       });
     },
-    [_updateRefreshToken]
+    [_refreshToken]
   );
 
-  return [refreshTokenResult, updateRefreshToken];
+  return { refreshTokenResult, updateRefreshToken: refreshToken };
 };
 
 export default useRefreshToken;

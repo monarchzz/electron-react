@@ -5,29 +5,29 @@ import LocalStorage from 'renderer/constants/local-storage';
 import AuthContext, { IAuthContext } from './AuthContext';
 
 function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useLocalStorage<AuthCredential | null>({
+  const [credential, setCredential] = useLocalStorage<AuthCredential | null>({
     key: LocalStorage.user,
     defaultValue: null,
   });
 
   const login = useCallback(
     async (authCredential: AuthCredential) => {
-      setUser(authCredential);
+      setCredential(authCredential);
     },
-    [setUser]
+    [setCredential]
   );
 
   const logout = useCallback(async () => {
-    setUser(null);
-  }, [setUser]);
+    setCredential(null);
+  }, [setCredential]);
 
   const value = useMemo<IAuthContext>(
     () => ({
-      user,
+      credential,
       login,
       logout,
     }),
-    [login, logout, user]
+    [login, logout, credential]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

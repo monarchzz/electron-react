@@ -1,6 +1,5 @@
 import { MantineProvider } from '@mantine/core';
 import './App.css';
-import 'tailwindcss/tailwind.css';
 import { Provider } from 'urql';
 import Router from './routes/Router';
 import { AuthProvider } from './services/context/auth/AuthProvider';

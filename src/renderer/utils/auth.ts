@@ -24,6 +24,13 @@ const getRefreshToken = (): string | null => {
   return authCredential.refreshToken;
 };
 
+const getTenant = (): string | null => {
+  const authCredential = getAuthCredential();
+  if (!authCredential) return null;
+
+  return authCredential.tenant;
+};
+
 const removeAuthCredential = (): void => {
   localStorage.removeItem(LocalStorage.user);
 };
@@ -35,6 +42,7 @@ const setAuthCredential = (authCredential: AuthCredential): void => {
 export {
   getToken,
   getRefreshToken,
+  getTenant,
   getAuthCredential,
   removeAuthCredential,
   setAuthCredential,

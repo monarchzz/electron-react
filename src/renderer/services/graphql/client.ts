@@ -1,13 +1,15 @@
 import { GraphqlConfig, GraphqlErrorCodes } from 'renderer/constants/graphql';
 import {
   getRefreshToken,
+  getTenant,
   getToken,
   removeAuthCredential,
   setAuthCredential,
 } from 'renderer/utils/auth';
 import { Client, cacheExchange, fetchExchange } from 'urql';
 import { refocusExchange } from '@urql/exchange-refocus';
-import { AuthConfig, authExchange } from '@urql/exchange-auth';
+import { AuthConfig, AuthUtilities, authExchange } from '@urql/exchange-auth';
+import { retryExchange } from '@urql/exchange-retry';
 import { refreshTokenMutation } from './mutations/auth/useRefreshToken';
 
 const client = new Client({
@@ -15,11 +17,11 @@ const client = new Client({
   exchanges: [
     refocusExchange(),
     cacheExchange,
-    authExchange(async (utils) => {
-      const token = getToken();
-      // const refreshToken = getRefreshToken();
+    authExchange(async (utils: AuthUtilities) => {
       const autConfig: AuthConfig = {
         addAuthToOperation(operation) {
+          const token = getToken();
+
           if (!token) return operation;
           return utils.appendHeaders(operation, {
             Authorization: `Bearer ${token}`,
@@ -36,11 +38,21 @@ const client = new Client({
             removeAuthCredential();
           }
 
-          const result = await utils.mutate(refreshTokenMutation, {
-            input: {
-              refreshToken: refreshToken!,
+          const result = await utils.mutate(
+            refreshTokenMutation,
+            {
+              input: {
+                refreshToken: refreshToken!,
+              },
             },
-          });
+            {
+              fetchOptions: {
+                headers: {
+                  tenant: getTenant() || '',
+                },
+              },
+            }
+          );
 
           if (result.data?.refreshToken) {
             setAuthCredential(result.data.refreshToken);
@@ -50,6 +62,13 @@ const client = new Client({
         },
       };
       return autConfig;
+    }),
+    retryExchange({
+      initialDelayMs: GraphqlConfig.initialDelayMs,
+      maxDelayMs: GraphqlConfig.maxDelayMs,
+      randomDelay: true,
+      maxNumberAttempts: 2,
+      retryIf: (err) => !!(err && err.networkError),
     }),
     fetchExchange,
   ],

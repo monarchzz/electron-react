@@ -4,13 +4,13 @@ import { AuthCredential } from 'renderer/interfaces/AuthCredential';
 export interface IAuthContext {
   login: (authCredential: AuthCredential) => Promise<void>;
   logout: () => Promise<void>;
-  user: AuthCredential | null;
+  credential: AuthCredential | null;
 }
 
 const AuthContext = createContext<IAuthContext>({
   login: async () => {},
   logout: async () => {},
-  user: null,
+  credential: null,
 });
 
 export default AuthContext;
