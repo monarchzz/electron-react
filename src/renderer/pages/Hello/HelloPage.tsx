@@ -1,6 +1,6 @@
 import icon from '../../../../assets/icon.svg';
 
-export default function Hello() {
+export default function HelloPage() {
   return (
     <div>
       <div className="Hello">

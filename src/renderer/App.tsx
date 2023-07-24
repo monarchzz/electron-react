@@ -1,17 +1,19 @@
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
 import './App.css';
 import 'tailwindcss/tailwind.css';
-import Hello from './pages/Hello/Hello';
+import { Provider } from 'urql';
+import Router from './routes/Router';
+import { AuthProvider } from './services/context/auth/AuthProvider';
+import client from './services/graphql/client';
 
 export default function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Hello />} />
-        </Routes>
-      </Router>
+      <Provider value={client}>
+        <AuthProvider>
+          <Router />
+        </AuthProvider>
+      </Provider>
     </MantineProvider>
   );
 }
