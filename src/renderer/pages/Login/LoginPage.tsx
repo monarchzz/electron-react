@@ -38,7 +38,7 @@ function LoginPage() {
     },
   });
   type FormValues = typeof form.values;
-  const { login } = useLogin();
+  const [, login] = useLogin();
   const [errorMessage, setErrorMessage] = useState<string>();
   const auth = useAuth();
 
@@ -55,7 +55,10 @@ function LoginPage() {
         values.organization
       ).then((result) => {
         if (
-          errorExists(result.error, GraphqlErrorCodes.invalidCredentials) ||
+          errorExists(
+            result.error,
+            GraphqlErrorCodes.authentication.invalidCredentials
+          ) ||
           errorExists(result.error, undefined)
         ) {
           setErrorMessage('Organization, username or password is incorrect');

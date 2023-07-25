@@ -1,5 +1,5 @@
 import LocalStorage from 'renderer/constants/local-storage';
-import { AuthCredential } from 'renderer/interfaces/AuthCredential';
+import { AuthCredential } from 'renderer/interfaces/auth-credential';
 
 const getAuthCredential = (): AuthCredential | null => {
   const authCredentialJson = localStorage.getItem(LocalStorage.user);

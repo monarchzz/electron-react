@@ -13,9 +13,11 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+    "\n  fragment AttachmentFragment on AttachmentPayload {\n    id\n    fileName\n    length\n    contentType\n    url\n  }\n": types.AttachmentFragmentFragmentDoc,
+    "\n  fragment RoleFragment on RolePayload {\n    id\n    name\n    description\n  }\n": types.RoleFragmentFragmentDoc,
     "\n  mutation login($input: LoginInput!) {\n    login(input: $input) {\n      userId\n      token\n      refreshToken\n      tenant\n    }\n  }\n": types.LoginDocument,
     "\n  mutation RefreshToken($input: RefreshTokenInput!) {\n    refreshToken(input: $input) {\n      userId\n      token\n      refreshToken\n      tenant\n    }\n  }\n": types.RefreshTokenDocument,
-    "\n  query Profile {\n    profile {\n      id\n      lastName\n      firstName\n      email\n      phoneNumber\n      gender\n    }\n  }\n": types.ProfileDocument,
+    "\n  query Profile {\n    profile {\n      id\n      lastName\n      firstName\n      email\n      phoneNumber\n      gender\n      emailConfirmed\n      address\n      dateOfBirth\n      avatar {\n        ...AttachmentFragment\n      }\n      roles {\n        ...RoleFragment\n      }\n    }\n  }\n": types.ProfileDocument,
 };
 
 /**
@@ -35,6 +37,14 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  fragment AttachmentFragment on AttachmentPayload {\n    id\n    fileName\n    length\n    contentType\n    url\n  }\n"): (typeof documents)["\n  fragment AttachmentFragment on AttachmentPayload {\n    id\n    fileName\n    length\n    contentType\n    url\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  fragment RoleFragment on RolePayload {\n    id\n    name\n    description\n  }\n"): (typeof documents)["\n  fragment RoleFragment on RolePayload {\n    id\n    name\n    description\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  mutation login($input: LoginInput!) {\n    login(input: $input) {\n      userId\n      token\n      refreshToken\n      tenant\n    }\n  }\n"): (typeof documents)["\n  mutation login($input: LoginInput!) {\n    login(input: $input) {\n      userId\n      token\n      refreshToken\n      tenant\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -43,7 +53,7 @@ export function graphql(source: "\n  mutation RefreshToken($input: RefreshTokenI
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Profile {\n    profile {\n      id\n      lastName\n      firstName\n      email\n      phoneNumber\n      gender\n    }\n  }\n"): (typeof documents)["\n  query Profile {\n    profile {\n      id\n      lastName\n      firstName\n      email\n      phoneNumber\n      gender\n    }\n  }\n"];
+export function graphql(source: "\n  query Profile {\n    profile {\n      id\n      lastName\n      firstName\n      email\n      phoneNumber\n      gender\n      emailConfirmed\n      address\n      dateOfBirth\n      avatar {\n        ...AttachmentFragment\n      }\n      roles {\n        ...RoleFragment\n      }\n    }\n  }\n"): (typeof documents)["\n  query Profile {\n    profile {\n      id\n      lastName\n      firstName\n      email\n      phoneNumber\n      gender\n      emailConfirmed\n      address\n      dateOfBirth\n      avatar {\n        ...AttachmentFragment\n      }\n      roles {\n        ...RoleFragment\n      }\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

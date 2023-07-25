@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { graphql } from 'renderer/gql';
-import { Exact, LoginInput } from 'renderer/gql/graphql';
-import { useMutation } from 'urql';
+import { Exact, LoginInput, LoginMutation } from 'renderer/gql/graphql';
+import { OperationResult, UseMutationState, useMutation } from 'urql';
 
 export const loginMutation = graphql(`
   mutation login($input: LoginInput!) {
@@ -35,7 +35,20 @@ const useLogin = () => {
     [_login]
   );
 
-  return { loginResult, login };
+  const result: [
+    UseMutationState<
+      LoginMutation,
+      Exact<{
+        input: LoginInput;
+      }>
+    >,
+    (
+      variables: Exact<{ input: LoginInput }>,
+      tenant: string
+    ) => Promise<OperationResult<LoginMutation, Exact<{ input: LoginInput }>>>
+  ] = [loginResult, login];
+
+  return result;
 };
 
 export default useLogin;

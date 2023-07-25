@@ -7,16 +7,24 @@ import LoadingPage from 'renderer/pages/Loading/LoadingPage';
 import routePath from './route-path';
 
 function RoutesWrapper() {
-  const { credential } = useAuth();
+  const { authState } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (credential === null) {
-      navigate(routePath.login);
-    } else {
-      navigate(routePath.root);
+    switch (authState) {
+      case 'loading':
+        navigate(routePath.loading);
+        break;
+      case 'authenticated':
+        navigate(routePath.root);
+        break;
+      case 'unauthenticated':
+        navigate(routePath.login);
+        break;
+      default:
+        break;
     }
-  }, [navigate, credential]);
+  }, [navigate, authState]);
   return (
     <Routes>
       <Route path="/" element={<HelloPage />} />

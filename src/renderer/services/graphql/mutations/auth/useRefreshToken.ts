@@ -1,8 +1,12 @@
 import { useCallback } from 'react';
 import { graphql } from 'renderer/gql';
-import { Exact, RefreshTokenInput } from 'renderer/gql/graphql';
+import {
+  Exact,
+  RefreshTokenInput,
+  RefreshTokenMutation,
+} from 'renderer/gql/graphql';
 import { getTenant } from 'renderer/utils/auth';
-import { useMutation } from 'urql';
+import { OperationResult, UseMutationState, useMutation } from 'urql';
 
 export const refreshTokenMutation = graphql(`
   mutation RefreshToken($input: RefreshTokenInput!) {
@@ -35,7 +39,28 @@ const useRefreshToken = () => {
     [_refreshToken]
   );
 
-  return { refreshTokenResult, updateRefreshToken: refreshToken };
+  const result: [
+    UseMutationState<
+      RefreshTokenMutation,
+      Exact<{
+        input: RefreshTokenInput;
+      }>
+    >,
+    (
+      variables: Exact<{
+        input: RefreshTokenInput;
+      }>
+    ) => Promise<
+      OperationResult<
+        RefreshTokenMutation,
+        Exact<{
+          input: RefreshTokenInput;
+        }>
+      >
+    >
+  ] = [refreshTokenResult, refreshToken];
+
+  return result;
 };
 
 export default useRefreshToken;

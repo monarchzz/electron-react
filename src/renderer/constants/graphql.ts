@@ -7,8 +7,9 @@ const GraphqlConfig = {
 const GraphqlErrorCodes = {
   authNotAuthorized: 'AUTH_NOT_AUTHORIZED',
 
-  // Authentication
-  invalidCredentials: 'Authentication.InvalidCredentials',
+  authentication: {
+    invalidCredentials: 'Authentication.InvalidCredentials',
+  },
 };
 
 export { GraphqlConfig, GraphqlErrorCodes };

@@ -10,16 +10,23 @@ export const profileQuery = graphql(`
       email
       phoneNumber
       gender
+      emailConfirmed
+      address
+      dateOfBirth
+      avatar {
+        ...AttachmentFragment
+      }
+      roles {
+        ...RoleFragment
+      }
     }
   }
 `);
 
 const useGetProfile = () => {
-  const [result, reexecuteQuery] = useQuery({
+  return useQuery({
     query: profileQuery,
   });
-
-  return [result, reexecuteQuery];
 };
 
 export default useGetProfile;
